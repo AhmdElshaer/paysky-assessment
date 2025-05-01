@@ -5,11 +5,9 @@ import Link from "next/link";
 import {
   ShoppingCart,
   Search,
-  Menu,
   X,
   Store,
   LogIn,
-  Home,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -37,17 +35,19 @@ export function Header() {
       )}>
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-2">
-              <Store className="h-6 w-6" />
-              <span className="font-bold text-xl hidden sm:inline-block">
-                PaySky Mart
-              </span>
-            </Link>
-          </div>
-          <div className="hidden md:flex max-w-md w-full mx-4">
-            <Search height={12} width={12} />
-          </div>
+          <Link href="/" className="flex items-center gap-2">
+            <Store className="h-6 w-6" />
+            <span className="font-bold lg:text-xl hidden sm:inline-block">
+              PaySky Mart
+            </span>
+          </Link>
+
+          <Search
+            height={12}
+            width={12}
+            className="hidden md:flex max-w-md w-full mx-4"
+          />
+
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
@@ -79,9 +79,7 @@ export function Header() {
         </div>
 
         {mobileSearchVisible && (
-          <div className="md:hidden pb-3 w-full">
-            <Search height={12} width={12} />
-          </div>
+          <Search height={12} width={12} className="md:hidden pb-3 w-full" />
         )}
       </div>
     </header>
