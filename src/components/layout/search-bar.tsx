@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Search, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getProducts, searchProducts } from "@/lib/api/products";
+import { getProducts } from "@/lib/api/products";
 import { Product } from "@/types";
 import { useDebounce } from "@/hooks/use-debounce";
 import Link from "next/link";

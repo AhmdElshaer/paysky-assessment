@@ -24,7 +24,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
   }).format(product.price);
 
   return (
-    <Card className="group h-full overflow-hidden transition-all duration-300 hover:shadow-md">
+    <Card className="group h-full overflow-hidden transition-all duration-300 hover:shadow-md py-0">
       <div className="relative">
         <Link href={`/product/${product.id}`}>
           <div className="relative h-[200px] w-full overflow-hidden bg-neutral-100">

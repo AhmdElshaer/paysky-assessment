@@ -61,21 +61,3 @@ export async function getProductsByCategory(category: string): Promise<Product[]
     throw error;
   }
 }
-
-export async function searchProducts(query: string): Promise<Product[]> {
-  try {
-    const products = await getProducts();
-    
-    if (!query) return products;
-    
-    const normalizedQuery = query.toLowerCase();
-    
-    return products.filter(product => 
-      product.title.toLowerCase().includes(normalizedQuery) || 
-      product.description.toLowerCase().includes(normalizedQuery)
-    );
-  } catch (error) {
-    console.error('Error searching products:', error);
-    throw error;
-  }
-}

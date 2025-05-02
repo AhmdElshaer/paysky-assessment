@@ -22,7 +22,7 @@ export default function LoginPage() {
     }
   }, [user, router]);
 
-  const { register, onSubmit, errors, isLoading } = UseLoginForm();
+  const { register, onSubmit, errors, isLoading, isValid } = UseLoginForm();
 
   return (
     <main className="flex-1 container flex items-center justify-center px-4 py-8 md:px-6 md:py-12">
@@ -82,7 +82,7 @@ export default function LoginPage() {
             type="submit"
             className="w-full"
             size="lg"
-            disabled={isLoading}
+            disabled={isLoading || !isValid}
             >
             {isLoading ? (
               <>
