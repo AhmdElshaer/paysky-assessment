@@ -2,12 +2,21 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ShoppingCart, Search, X, Store, LogIn, LogOut } from "lucide-react";
+import {
+  ShoppingCart,
+  Search,
+  X,
+  Store,
+  LogIn,
+  LogOut,
+  Loader2,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/stores/authStore";
 import { useShallow } from "zustand/shallow";
 import Image from "next/image";
+import { SearchBar } from "./search-bar";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -46,11 +55,9 @@ export function Header() {
             </span>
           </Link>
 
-          <Search
-            height={12}
-            width={12}
-            className="hidden md:flex max-w-md w-full mx-4"
-          />
+          <div className="hidden md:flex max-w-md w-full mx-4">
+            <SearchBar />
+          </div>
 
           <div className="flex items-center gap-2">
             <Button
@@ -73,30 +80,40 @@ export function Header() {
               </Button>
             </Link>
 
-            {user ? (
-              <div className="flex items-center gap-2 px-2 py-1 hover:bg-accent">
-                <Image src={user?.avatar} alt={user.username} height={30} width={30} className="rounded-full"  />
-                <span className="text-sm font-medium">{user?.firstName}</span>
-                <div
-                  className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-accent cursor-pointer"
-                  onClick={() => logout()}>
-                  <LogOut className="h-5 w-5" />
-                  <span>Logout</span>
-                </div>
-              </div>
-            ) : (
-              <Link
-                href="/login"
-                className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-accent">
-                <LogIn className="h-5 w-5" />
-                <span>Login</span>
-              </Link>
-            )}
+                {user ? (
+                  <div className="flex items-center gap-2 px-2 py-1 hover:bg-accent">
+                    <Image
+                      src={user?.avatar}
+                      alt={user.username}
+                      height={30}
+                      width={30}
+                      className="rounded-full"
+                    />
+                    <span className="text-sm font-medium">
+                      {user?.firstName}
+                    </span>
+                    <div
+                      className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-accent cursor-pointer"
+                      onClick={() => logout()}>
+                      <LogOut className="h-5 w-5" />
+                      <span>Logout</span>
+                    </div>
+                  </div>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-accent">
+                    <LogIn className="h-5 w-5" />
+                    <span>Login</span>
+                  </Link>
+                )}
           </div>
         </div>
 
         {mobileSearchVisible && (
-          <Search height={12} width={12} className="md:hidden pb-3 w-full" />
+          <div className="md:hidden pb-3 w-full">
+            <SearchBar />
+          </div>
         )}
       </div>
     </header>
