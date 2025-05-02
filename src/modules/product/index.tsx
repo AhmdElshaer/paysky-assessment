@@ -1,3 +1,4 @@
+"use client";
 import ProductRating from "@/components/ui/productRating";
 import { Product } from "@/types";
 import { ArrowLeft } from "lucide-react";
@@ -27,8 +28,10 @@ export default function ProductPage({ product }: { product: Product }) {
             alt={product.title}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-contain p-8"
+            className="object-contain animate-pulse p-8"
             priority
+            onLoad={(e) => {e.currentTarget.classList.remove('animate-pulse');}}
+            onError={(e) => {e.currentTarget.src = "https://placehold.co/200?text=PaySky+Mart";}}
           />
         </div>
 

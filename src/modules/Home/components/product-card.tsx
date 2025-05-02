@@ -33,7 +33,9 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
               alt={product.title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+              className="h-full w-full animate-pulse bg-slate-150 object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+              onLoad={(e) => {e.currentTarget.classList.remove('animate-pulse');}}
+              onError={(e) => {e.currentTarget.src = "https://placehold.co/200?text=PaySky+Mart";}}
             />
           </div>
         </Link>
