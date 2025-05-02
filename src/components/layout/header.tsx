@@ -2,19 +2,23 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-  ShoppingCart,
-  Search,
-  X,
-  Store,
-  LogIn,
-} from "lucide-react";
+import { ShoppingCart, Search, X, Store, LogIn, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/stores/authStore";
+import { useShallow } from "zustand/shallow";
+import Image from "next/image";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileSearchVisible, setMobileSearchVisible] = useState(false);
+
+  const { user, logout } = useAuthStore(
+    useShallow((state) => ({
+      user: state.user,
+      logout: state.logout,
+    }))
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,7 +41,7 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Store className="h-6 w-6" />
-            <span className="font-bold lg:text-xl hidden sm:inline-block">
+            <span className="font-bold lg:text-xl hidden sm:inline-block text-nowrap">
               PaySky Mart
             </span>
           </Link>
@@ -69,12 +73,25 @@ export function Header() {
               </Button>
             </Link>
 
-            <Link href="/login">
-              <Button variant="ghost" size="sm" className="gap-1">
-                <LogIn className="h-4 w-4" />
-                <span className="hidden sm:inline-block">Login</span>
-              </Button>
-            </Link>
+            {user ? (
+              <div className="flex items-center gap-2 px-2 py-1 hover:bg-accent">
+                <Image src={user?.avatar} alt={user.username} height={30} width={30} className="rounded-full"  />
+                <span className="text-sm font-medium">{user?.firstName}</span>
+                <div
+                  className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-accent cursor-pointer"
+                  onClick={() => logout()}>
+                  <LogOut className="h-5 w-5" />
+                  <span>Logout</span>
+                </div>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-accent">
+                <LogIn className="h-5 w-5" />
+                <span>Login</span>
+              </Link>
+            )}
           </div>
         </div>
 

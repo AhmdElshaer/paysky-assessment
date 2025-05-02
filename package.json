@@ -18,7 +18,10 @@
     "next": "14.2.13",
     "react": "18",
     "react-dom": "18",
-    "tailwind-merge": "^3.2.0"
+    "react-hook-form": "^7.56.1",
+    "react-hot-toast": "^2.5.2",
+    "tailwind-merge": "^3.2.0",
+    "zustand": "^5.0.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
