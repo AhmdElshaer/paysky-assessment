@@ -9,8 +9,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from '@/lib/utils';
 import { Product } from '@/types';
+import ProductRating from '@/components/ui/productRating';
 
 interface ProductCardProps {
   product: Product;
@@ -80,24 +80,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
             {product.title}
           </h3>
         </Link>
-        <div className="mt-1 flex items-center gap-1">
-          <div className="flex">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className={cn(
-                  "h-4 w-4",
-                  i < Math.round(product.rating.rate)
-                    ? "fill-chart-4 text-chart-4"
-                    : "fill-none text-muted-foreground"
-                )}
-              />
-            ))}
-          </div>
-          <span className="text-xs text-muted-foreground">
-            ({product.rating.count})
-          </span>
-        </div>
+        <ProductRating rating={product.rating} />
         <div className="mt-2 flex items-center justify-between">
           <p className="font-medium">{formattedPrice}</p>
           <Button

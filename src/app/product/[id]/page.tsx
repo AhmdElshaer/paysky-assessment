@@ -1,14 +1,46 @@
-export default function ProductPage() {
+import { Button } from "@/components/ui/button";
+import { getProduct } from "@/lib/api/products";
+import ProductPage from "@/modules/product";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+
+interface ProductPageProps {
+  params: { id: string };
+}
+
+export default async function Product({ params }: ProductPageProps) {
+  const { id } = params;
+  
+  let product;
+  let error = null;
+  
+  try {
+    product = await getProduct(id);
+  } catch (err) {
+    error = 'Failed to load product details.';
+    console.error(err);
+  }
+  
+  if (error || !product) {
+    return (
+        <main className="flex-1 container px-4 py-8 md:px-6 md:py-12">
+          <Link href="/" className="inline-flex items-center gap-1 mb-6 text-muted-foreground hover:text-foreground">
+            <ArrowLeft className="h-4 w-4" />
+            <span>Back to products</span>
+          </Link>
+          
+          <div className="flex flex-col items-center justify-center py-12">
+            <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
+            <p className="text-muted-foreground mb-6">
+              We couldn't find the product you're looking for.
+            </p>
+            <Link href="/">
+              <Button>Return to Home</Button>
+            </Link>
+          </div>
+        </main>
+    );
+  }
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-4">Product Details</h1>
-      <div className="bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-xl font-semibold mb-2">Product Name</h2>
-        <p className="text-gray-700 mb-4">Product description goes here.</p>
-        <p className="text-lg font-bold text-green-600">$99.99</p>
-        <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-          Add to Cart
-        </button>
-      </div>
-    </div>)
+    <ProductPage product={product} />)
 };
