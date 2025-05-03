@@ -3,9 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import UseLoginForm from "./hooks/useLogin";
+import { useAuthStore } from "@/stores/authStore";
 
 export default function LoginPage() {
   const { register, onSubmit, errors, isLoading, isValid } = UseLoginForm();
+  const { user, _hasHydrated } = useAuthStore();
+  if (user || !_hasHydrated) {
+    return null;
+  }
 
   return (
     <main className="flex-1 container flex items-center justify-center px-4 py-8 md:px-6 md:py-12">

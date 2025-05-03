@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/authStore";
 import { Loader2 } from "lucide-react";
@@ -13,16 +13,9 @@ export default function AuthGuard({
   const router = useRouter();
   const pathname = usePathname();
   const { user, _hasHydrated } = useAuthStore();
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
-    if (_hasHydrated) {
-      setIsCheckingAuth(false);
-    }
-  }, [_hasHydrated]);
-
-  useEffect(() => {
-    if (isCheckingAuth) return;
+    if (!_hasHydrated) return;
 
     const protectedRoutes = ["/checkout"];
     const authRoutes = ["/login", "/signup"];
@@ -36,9 +29,9 @@ export default function AuthGuard({
         router.replace("/login");
       }
     }
-  }, [pathname, user, isCheckingAuth, router]);
+  }, [pathname, user, _hasHydrated, router]);
 
-  if (isCheckingAuth) {
+  if (!_hasHydrated) {
     return (
       <div className="flex flex-col justify-center items-center h-screen w-screen">
         <Loader2

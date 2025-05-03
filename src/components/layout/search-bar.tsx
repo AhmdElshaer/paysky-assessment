@@ -106,9 +106,9 @@ export function SearchBar() {
               <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
             </div>
           ) : results.length < 1 ? (
-            <p>No Result Found</p>
+            <p className="px-2">No Result Found</p>
           ) : (
-            <div className="max-h-60 overflow-y-auto">
+            <div className="max-h-60 overflow-y-auto px-2">
               {results.map((product) => (
                 <Link
                   href={`/product/${product.id}`}

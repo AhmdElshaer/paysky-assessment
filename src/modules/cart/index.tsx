@@ -48,10 +48,12 @@ export default function CartPage() {
               )}
 
               {user ? (
-                <Button className="w-full mt-4" size="lg">
-                  Proceed to Checkout
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                <Link href="/checkout">
+                  <Button className="w-full mt-4" size="lg">
+                    Proceed to Checkout
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
               ) : (
                 <Button className="w-full mt-4" size="lg" onClick={handleLogin}>
                   Login to Checkout
