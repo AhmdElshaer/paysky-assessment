@@ -16,6 +16,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useShallow } from "zustand/shallow";
 import Image from "next/image";
 import { SearchBar } from "./search-bar";
+import { useCart } from "@/hooks/useCart";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -27,6 +28,8 @@ export function Header() {
       logout: state.logout,
     }))
   );
+
+  const { totalItems} = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,6 +78,11 @@ export function Header() {
             <Link href="/cart">
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingCart className="h-5 w-5" />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+                    {totalItems}
+                  </span>
+                )}
                 <span className="sr-only">Cart</span>
               </Button>
             </Link>

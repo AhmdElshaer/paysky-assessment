@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { User } from '@/types';
+import toast from 'react-hot-toast';
 
 interface AuthState {
   user: User | null;
@@ -52,6 +53,7 @@ export const useAuthStore = create<AuthState>()(
       },
       logout: () => {
         set({ user: null });
+        toast.success('Logged out successfully');
       },
     }),
     {

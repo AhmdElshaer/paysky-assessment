@@ -3,6 +3,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "PaySky Mart",
@@ -26,6 +27,7 @@ export default function RootLayout({
           }>
           <Header />
           <div className="container mx-auto px-4 w-full">{children}</div>
+          <Toaster position="top-center" />
         </Suspense>
       </body>
     </html>

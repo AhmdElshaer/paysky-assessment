@@ -9,6 +9,7 @@ import { CategoryFilter } from './category-filter';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { ProductSkeleton } from './product-skeleton';
+import { useCart } from '@/hooks/useCart';
 
 export function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -16,7 +17,8 @@ export function ProductList() {
   const [error, setError] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get('category');
-  
+  const { addItem } = useCart();
+
   useEffect(() => {
     const fetchProducts = async () => {
       setIsLoading(true);
@@ -43,8 +45,7 @@ export function ProductList() {
   }, [categoryParam]);
   
   const handleAddToCart = (product: Product) => {
-    console.log(product);
-    
+    addItem(product);
   };
   
   if (error) {
