@@ -1,26 +1,28 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { Star, ShoppingCart, Share2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import Image from "next/image";
+import Link from "next/link";
+import { ShoppingCart, Share2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Product } from '@/types';
-import ProductRating from '@/components/ui/productRating';
+import { Product } from "@/types";
+import ProductRating from "@/components/ui/productRating";
+import { Dispatch } from "react";
 
 interface ProductCardProps {
   product: Product;
   onAddToCart: (product: Product) => void;
+  setShareModal: Dispatch<React.SetStateAction<Product | null>>;
 }
 
-export function ProductCard({ product, onAddToCart }: ProductCardProps) {
-  const formattedPrice = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+export function ProductCard({ product, onAddToCart, setShareModal }: ProductCardProps) {
+  const formattedPrice = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
   }).format(product.price);
 
   return (
@@ -34,8 +36,13 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="h-full w-full animate-pulse bg-slate-150 object-contain p-4 transition-transform duration-500 group-hover:scale-105"
-              onLoad={(e) => {e.currentTarget.classList.remove('animate-pulse');}}
-              onError={(e) => {e.currentTarget.src = "https://placehold.co/200?text=PaySky+Mart";}}
+              onLoad={(e) => {
+                e.currentTarget.classList.remove("animate-pulse");
+              }}
+              onError={(e) => {
+                e.currentTarget.src =
+                  "https://placehold.co/200.png?text=PaySky+Mart";
+              }}
             />
           </div>
         </Link>
@@ -49,24 +56,8 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
                 <Button
                   size="icon"
                   variant="secondary"
-                  className="h-8 w-8 rounded-full opacity-0 transition-opacity group-hover:opacity-100"
-                  onClick={() => onAddToCart(product)}
-                >
-                  <ShoppingCart className="h-4 w-4" />
-                  <span className="sr-only">Add to cart</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Add to cart</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  size="icon"
-                  variant="secondary"
-                  className="h-8 w-8 rounded-full opacity-0 transition-opacity group-hover:opacity-100"
-                >
+                  onClick={() => {setShareModal(product)}}
+                  className="h-8 w-8 rounded-full opacity-0 transition-opacity group-hover:opacity-100">
                   <Share2 className="h-4 w-4" />
                   <span className="sr-only">Share</span>
                 </Button>
@@ -89,8 +80,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
             size="sm"
             variant="outline"
             className="gap-1"
-            onClick={() => onAddToCart(product)}
-          >
+            onClick={() => onAddToCart(product)}>
             <ShoppingCart className="h-4 w-4" />
             <span>Add</span>
           </Button>

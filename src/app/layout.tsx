@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Suspense } from "react";
-import { Loader2 } from "lucide-react";
 import { Toaster } from "react-hot-toast";
 import AuthGuard from "@/lib/authGuard";
+import Loading from "@/components/layout/loading";
 
 export const metadata: Metadata = {
   title: "PaySky Mart",
@@ -19,17 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col">
-        <Suspense
-          fallback={
-            <div className="flex flex-col justify-center items-center h-screen w-screen">
-              <Loader2
-                height={50}
-                width={50}
-                className="animate-spin text-muted-foreground"
-              />
-              <span>Loading...</span>
-            </div>
-          }>
+        <Suspense fallback={<Loading />}>
           <AuthGuard>
             <Header />
             <div className="container mx-auto px-4 w-full">{children}</div>

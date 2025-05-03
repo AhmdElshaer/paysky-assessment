@@ -1,22 +1,24 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { Product } from '@/types';
-import { ProductCard } from './product-card';
-import { getProducts, getProductsByCategory } from '@/lib/api/products';
-import { CategoryFilter } from './category-filter';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
-import { ProductSkeleton } from './product-skeleton';
-import { useCart } from '@/hooks/useCart';
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { Product } from "@/types";
+import { ProductCard } from "./product-card";
+import { getProducts, getProductsByCategory } from "@/lib/api/products";
+import { CategoryFilter } from "./category-filter";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
+import { ProductSkeleton } from "./product-skeleton";
+import { useCart } from "@/hooks/useCart";
+import ShareModal from "./shareModal";
 
 export function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [shareModal, setShareModal] = useState<Product | null>(null);
   const searchParams = useSearchParams();
-  const categoryParam = searchParams.get('category');
+  const categoryParam = searchParams.get("category");
   const { addItem } = useCart();
 
   useEffect(() => {
@@ -25,29 +27,29 @@ export function ProductList() {
       setError(null);
       try {
         let productData: Product[];
-        
+
         if (categoryParam) {
           productData = await getProductsByCategory(categoryParam);
         } else {
           productData = await getProducts();
         }
-        
+
         setProducts(productData);
       } catch (err) {
-        setError('Failed to load products. Please try again later.');
+        setError("Failed to load products. Please try again later.");
         console.error(err);
       } finally {
         setIsLoading(false);
       }
     };
-    
+
     fetchProducts();
   }, [categoryParam]);
-  
+
   const handleAddToCart = (product: Product) => {
     addItem(product);
   };
-  
+
   if (error) {
     return (
       <Alert variant="destructive" className="mb-6">
@@ -56,10 +58,12 @@ export function ProductList() {
       </Alert>
     );
   }
-  
+
   return (
     <section className="w-full">
-        <CategoryFilter />
+      {shareModal && (
+        <ShareModal product={shareModal} setShareModal={setShareModal} />)}
+      <CategoryFilter />
       {isLoading ? (
         <div className="w-full grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {[...Array(8)].map((_, i) => (
@@ -82,6 +86,7 @@ export function ProductList() {
                   key={product.id}
                   product={product}
                   onAddToCart={handleAddToCart}
+                  setShareModal={setShareModal}
                 />
               ))}
             </div>
