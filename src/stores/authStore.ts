@@ -8,6 +8,8 @@ interface AuthState {
   isLoading: boolean;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
+  _hasHydrated: boolean;
+  setHasHydrated: (value: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -15,6 +17,8 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       isLoading: false,
+      _hasHydrated: false,
+      setHasHydrated: (value) => set({ _hasHydrated: value }),
       login: async (username, password) => {
         set({ isLoading: true });
         try {
@@ -34,12 +38,9 @@ export const useAuthStore = create<AuthState>()(
           const userData = await userResponse.json();
           
           const user: User = {
-            id: userData.id,
-            email: userData.email,
-            username: userData.username,
-            firstName: userData.name.firstname,
-            lastName: userData.name.lastname,
-            avatar: `https://ui-avatars.com/api/?name=${userData.name.firstname}+${userData.name.lastname}&background=random`,
+            ...userData,
+            password: "********",
+            avatar: userData?.avatar??`https://ui-avatars.com/api/?name=${userData.name.firstname}+${userData.name.lastname}&background=random`,
             token,
           };
 
@@ -60,6 +61,11 @@ export const useAuthStore = create<AuthState>()(
       name: 'auth-storage',
       partialize: (state) => ({ user: state.user }),
       storage: createJSONStorage(() => localStorage),
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          state.setHasHydrated(true);
+        }
+      },
     }
   )
 );

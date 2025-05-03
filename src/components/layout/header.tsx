@@ -57,7 +57,7 @@ export function Header() {
             </span>
           </Link>
 
-          <div className="hidden md:flex max-w-md w-full mx-4">
+          <div className="hidden md:flex max-w-sm lg:max-w-md w-full mx-4">
             <SearchBar />
           </div>
 
@@ -97,13 +97,13 @@ export function Header() {
                       className="rounded-full"
                     />
                     <span className="text-sm font-medium">
-                      {user?.firstName}
+                      {user?.name?.firstname}
                     </span>
                     <div
                       className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-accent cursor-pointer"
                       onClick={() => logout()}>
                       <LogOut className="h-5 w-5" />
-                      <span>Logout</span>
+                      <span className="hidden lg:block">Logout</span>
                     </div>
                   </div>
                 ) : (

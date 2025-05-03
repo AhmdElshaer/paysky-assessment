@@ -3,25 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import UseLoginForm from "./hooks/useLogin";
-import { useAuthStore } from "@/stores/authStore";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useShallow } from "zustand/shallow";
 
 export default function LoginPage() {
-  const router = useRouter();
-  const { user } = useAuthStore(
-    useShallow((state) => ({
-      user: state.user,
-    }))
-  );
-
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  }, [user, router]);
-
   const { register, onSubmit, errors, isLoading, isValid } = UseLoginForm();
 
   return (

@@ -39,6 +39,9 @@ export const useCart = () => {
   };
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = items.reduce(
+    (sum, item) => sum + item.product.price * item.quantity ,
+    0);
 
   return {
     items,
@@ -47,5 +50,6 @@ export const useCart = () => {
     updateItemQuantity,
     clearCart,
     totalItems,
+    totalPrice
   };
 };

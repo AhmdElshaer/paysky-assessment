@@ -17,6 +17,21 @@ export interface CartItem {
 }
 
 export interface User {
+  address: {
+    geolocation: {
+      lat: string;
+      long: string;
+    };
+    city: string;
+    street: string;
+    number: number;
+    zipcode: string;
+  };
+  name: {
+    firstname: string;
+    lastname: string;
+  };
+  phone: string;
   id: number;
   email: string;
   username: string;
